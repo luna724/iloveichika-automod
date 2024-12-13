@@ -20,7 +20,6 @@ class BOT:
         intents.webhooks = True
         intents.integrations = True
         intents.invites = True
-        intents.applications = True
         intents.messages = True
         self.bot = commands.Bot(command_prefix='!', intents=intents)
         self.bot.remove_command('help')
@@ -36,7 +35,7 @@ class BOT:
     def listup_processes(folder_path) -> List[Callable]:
         processes = []
         # ディレクトリ内のすべての .py ファイルを取得
-        for filename in os.listdir(os.path.join(os.getcwd(), "folder_path")):
+        for filename in os.listdir(os.path.join(os.getcwd(), folder_path)):
             if filename.endswith(".py") and not filename.startswith("__"):  # __init__.py は除外
                 module_name = f"{folder_path.replace('/', '.')}.{filename[:-3]}"  # モジュール名に変換
                 try:
@@ -58,18 +57,22 @@ class BOT:
         bot = self.bot
         @bot.event
         async def on_ready():
+            await bot.load_extension("jishaku")
             print(f'Logged as {bot.user}')
 
         @bot.event
         async def on_message(message):
             if message.author == bot.user:
                 return
-            self.process_message(message)
+            await self.process_message(message)
             await bot.process_commands(message)
 
-    def process_message(self, message):
+    async def process_message(self, message):
         for f in self.on_message_functions:
-            f(self.bot, message)
+            await f(self.bot, message)
 
     def launch_bot(self):
         self.bot.run(os.environ['iloveichikaTOKEN'])
+
+if __name__ == "__main__":
+    BOT()
