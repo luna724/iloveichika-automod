@@ -57,7 +57,6 @@ class BOT:
         bot = self.bot
         @bot.event
         async def on_ready():
-            await bot.load_extension("jishaku")
             print(f'Logged as {bot.user}')
 
         @bot.event
