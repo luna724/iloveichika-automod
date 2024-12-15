@@ -61,9 +61,12 @@ class BOT:
             print(f'Logged as {bot.user}')
 
         @bot.event
-        async def on_message(message):
+        async def on_message(message: discord.Message):
             if message.author == bot.user:
                 return
+            if message.guild.id != 1287028655754575976:
+                return
+
             await self.process_message(message)
             await bot.process_commands(message)
 
