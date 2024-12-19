@@ -62,6 +62,7 @@ class BOT:
 
         @bot.event
         async def on_ready():
+            await bot.tree.sync(guild=discord.Object(id=1287028655754575976))
             print(f"Logged as {bot.user}")
 
         @bot.event
