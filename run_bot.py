@@ -1,8 +1,10 @@
 import importlib
 import os
 import discord
+import subprocess
 from discord.ext import commands
 from typing import *
+
 
 class BOT:
     def __init__(self):
@@ -21,8 +23,8 @@ class BOT:
         intents.integrations = True
         intents.invites = True
         intents.messages = True
-        self.bot = commands.Bot(command_prefix='!', intents=intents)
-        self.bot.remove_command('help')
+        self.bot = commands.Bot(command_prefix="!", intents=intents)
+        self.bot.remove_command("help")
 
         self.init()
         self.on_message_functions = self.listup_processes(folder_path="on_message")
@@ -36,7 +38,9 @@ class BOT:
         processes = []
         # ディレクトリ内のすべての .py ファイルを取得
         for filename in os.listdir(os.path.join(os.getcwd(), folder_path)):
-            if filename.endswith(".py") and not filename.startswith("__"):  # __init__.py は除外
+            if filename.endswith(".py") and not filename.startswith(
+                "__"
+            ):  # __init__.py は除外
                 module_name = f"{folder_path.replace('/', '.')}.{filename[:-3]}"  # モジュール名に変換
                 try:
                     # モジュールの動的インポート
@@ -55,9 +59,10 @@ class BOT:
 
     def init(self):
         bot = self.bot
+
         @bot.event
         async def on_ready():
-            print(f'Logged as {bot.user}')
+            print(f"Logged as {bot.user}")
 
         @bot.event
         async def on_message(message: discord.Message):
@@ -74,7 +79,9 @@ class BOT:
             await f(self.bot, message)
 
     def launch_bot(self):
-        self.bot.run(os.environ['iloveichikaTOKEN'])
+        self.bot.run(os.environ["iloveichikaTOKEN"])
+
 
 if __name__ == "__main__":
+    subprocess.Popen(["python", "uptimerobot.py"])
     BOT()
