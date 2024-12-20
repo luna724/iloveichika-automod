@@ -23,7 +23,7 @@ class BOT:
         intents.integrations = True
         intents.invites = True
         intents.messages = True
-        self.bot = commands.Bot(command_prefix="!", intents=intents)
+        self.bot = commands.Bot(command_prefix="iloveichika!", intents=intents)
         self.bot.remove_command("help")
 
         self.init()
@@ -63,6 +63,7 @@ class BOT:
         @bot.event
         async def on_ready():
             await bot.tree.sync(guild=discord.Object(id=1287028655754575976))
+            await bot.load_extension("jishaku")
             print(f"Logged as {bot.user}")
 
         @bot.event
@@ -71,6 +72,7 @@ class BOT:
                 return
             if message.guild.id != 1287028655754575976:
                 return
+            print(f"Message received: [{message.channel.name}][{message.author.name}]: [{message.content}]")
 
             await self.process_message(message)
             await bot.process_commands(message)

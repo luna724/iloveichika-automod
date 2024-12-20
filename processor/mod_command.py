@@ -29,3 +29,13 @@ def process(bot: commands.Bot):
                 color=color_dict[color]
             )
         )
+
+    @bot.tree.command(
+        name="make_text",
+        description="re-echo your message",
+        guild=guild
+    )
+    async def make_text(interaction: discord.Interaction, text: str):
+        await interaction.channel.send(
+            text
+        )
